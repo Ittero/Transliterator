@@ -1,34 +1,64 @@
-import { useState } from 'react';
-import './App.css';
-import { translitEngToUkr } from './translit';
+import { useState } from "react";
+import { fixLayout } from "./translit";
+import copyIcon from './assets/copy.svg';
+
+import "./index.css";
 
 function App() {
-  const [inputText, setInputText] = useState('');
-  const [result, setResult] = useState('');
+  const [inputText, setInputText] = useState("");
+  const [fixedText, setFixedText] = useState("");
 
-  const handleTranslit = () => {
-    const output = translitEngToUkr(inputText);
-    setResult(output);
+  const handleFix = () => {
+    const result = fixLayout(inputText);
+    setFixedText(result);
   };
 
   return (
     <div className="app-container">
-      <h1>Транслітерація: Англійська → Українська</h1>
+      <header className="app-header">
+        <h1>Transliterator</h1>
+      </header>
 
-      <textarea
-        placeholder="Введіть англійський текст"
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-        rows={5}
-        cols={50}
-      />
+      <main className="app-main">
+        <div className="text-columns">
+          <div className="column">
+            <h2>Введіть текст:</h2>
+            <textarea
+              placeholder="Текст для транслітерації..."
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+            />
+          </div>
+          <div className="column result-column">
+            <h2>Результат:</h2>
+            <div className="textarea-wrapper">
+              <textarea
+                placeholder="Виправлений текст..."
+                value={fixedText}
+                readOnly
+              />
 
-      <br />
+<button
+  className="copy-button"
+  onClick={() => navigator.clipboard.writeText(fixedText)}
+  title="Копіювати"
+>
+  <img src={copyIcon} alt="Копіювати" width="20" height="20" />
+</button>
 
-      <button onClick={handleTranslit}>Транслітерувати</button>
+            </div>
+          </div>
+        </div>
 
-      <h3>Результат:</h3>
-      <div className="output">{result}</div>
+<div className="fix-button-wrapper">
+  <button className="fix-button" onClick={handleFix}>Виправити</button>
+</div>
+
+      </main>
+
+      <footer className="app-footer">
+        <p>© 2025 Transliterator. Усі права захищено.</p>
+      </footer>
     </div>
   );
 }
