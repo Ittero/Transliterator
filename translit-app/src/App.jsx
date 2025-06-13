@@ -1,16 +1,32 @@
-import { useState } from "react";
-import { fixLayout } from "./translit";
+import { useState, useEffect } from 'react';
+import { transliterate } from './translit';
+import './index.css';
 import copyIcon from './assets/copy.svg';
 
-import "./index.css";
+
+
 
 function App() {
-  const [inputText, setInputText] = useState("");
-  const [fixedText, setFixedText] = useState("");
+  const [inputText, setInputText] = useState('');
+  const [outputText, setOutputText] = useState('');
+  const [direction, setDirection] = useState('enToUk');
+  const [copied, setCopied] = useState(false);
 
-  const handleFix = () => {
-    const result = fixLayout(inputText);
-    setFixedText(result);
+  useEffect(() => {
+    const result = transliterate(inputText, direction);
+    setOutputText(result);
+  }, [inputText, direction]);
+
+  const toggleDirection = () => {
+    setDirection((prev) => (prev === 'enToUk' ? 'ukToEn' : 'enToUk'));
+    setInputText(outputText);
+    setOutputText(inputText);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(outputText);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
   };
 
   return (
@@ -20,40 +36,32 @@ function App() {
       </header>
 
       <main className="app-main">
-        <div className="text-columns">
-          <div className="column">
-            <h2>Введіть текст:</h2>
-            <textarea
-              placeholder="Текст для транслітерації..."
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-            />
-          </div>
-          <div className="column result-column">
-            <h2>Результат:</h2>
-            <div className="textarea-wrapper">
-              <textarea
-                placeholder="Виправлений текст..."
-                value={fixedText}
-                readOnly
-              />
-
-<button
-  className="copy-button"
-  onClick={() => navigator.clipboard.writeText(fixedText)}
-  title="Копіювати"
->
-  <img src={copyIcon} alt="Копіювати" width="20" height="20" />
-</button>
-
-            </div>
-          </div>
+        <div className="language-labels">
+          <span>{direction === 'enToUk' ? 'Англійська' : 'Українська'}</span>
+          <button className="toggle-button" onClick={toggleDirection}>⇄</button>
+          <span>{direction === 'enToUk' ? 'Українська' : 'Англійська'}</span>
         </div>
 
-<div className="fix-button-wrapper">
-  <button className="fix-button" onClick={handleFix}>Виправити</button>
-</div>
+        <div className="textareas">
+          <textarea
+            placeholder="Введіть текст..."
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+          />
+          <div className="output-wrapper">
+            <textarea
+              placeholder="Виправлений текст..."
+              value={outputText}
+              readOnly
+            />
+<button className="copy-button" onClick={handleCopy} title="Копіювати">
+  <img src={copyIcon} alt="Copy" style={{ width: '20px', height: '20px' }} />
+</button>
 
+
+            {copied && <span className="copied-label">Скопійовано!</span>}
+          </div>
+        </div>
       </main>
 
       <footer className="app-footer">

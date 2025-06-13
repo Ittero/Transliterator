@@ -1,19 +1,17 @@
-import { engToUkrMap } from './keyboardMap.js';
+import { enToUkMap, ukToEnMap } from './keyboardMap';
 
-export function fixLayout(input) {
+export function transliterate(text, direction = 'enToUk') {
+  const map = direction === 'enToUk' ? enToUkMap : ukToEnMap;
   let result = '';
 
-  for (let char of input) {
+  for (let char of text) {
     const lowerChar = char.toLowerCase();
+    const mappedChar = map[lowerChar];
 
-    const mappedChar = engToUkrMap[lowerChar];
-
-    // Якщо є відповідність у мапі — додаємо її
     if (mappedChar) {
-      // Зберігаємо регістр: велика літера → велика
+      // Зберігаємо регістр
       result += char === lowerChar ? mappedChar : mappedChar.toUpperCase();
     } else {
-      // Якщо символ не в мапі — залишаємо як є (наприклад, цифри, спецсимволи)
       result += char;
     }
   }

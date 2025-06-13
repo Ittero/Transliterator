@@ -41,72 +41,90 @@ body {
   min-height: 80vh;
   background-color: #242323;
 }
-.text-columns {
+.language-labels {
   display: flex;
-  gap: 2rem;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
-.column {
-  flex: 1;
-  min-width: 250px;
+
+.toggle-button {
+  padding: 0.4rem 0.8rem;
+  font-size: 18px;
+  background-color: #0e0c0d;
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.toggle-button:hover {
+  background-color: rgb(59, 49, 52);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.textareas {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 textarea {
-    border-radius: 12px;
-    background-color: #1b1b1b;
-    color: #ffffff;
-    width: 600px;
-    height: 300px;
-    padding: 0.5rem;
-    font-size: 16px;
-    resize: vertical;
+  flex: 1;
+  height: 400px;
+  width: 500px;
+  padding: 1rem;
+  font-size: 16px;
+  border-radius: 10px;
+  color: #ffffff;
+  background-color: rgb(27, 27, 27);
+  border: 1px solid #383232;
+  resize: none;
 }
 textarea::placeholder-shown {
-  color: #ffffff;
+  color: #dd8585;
 }
 .textarea-wrapper {
   position: relative;
 }
+.output-wrapper {
+  position: relative;
+  /* width: 100%; */
+}
+
+.output-wrapper textarea {
+  /* width: 100%; */
+  box-sizing: border-box;
+} 
+
 .copy-button {
-  background: none;
-  border: none;
-  padding: 0.25rem;
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: 8px;
+  right: 8px;
+  background-color: #3e3c3c;
+  border-radius: 6px;
+  border: none;
   cursor: pointer;
+  padding: 4px;
+  transition: background-color 0.3s ease;
 }
 
 .copy-button:hover {
-  opacity: 0.7;
-}
-.fix-button {
-  all: unset; /* Скидає стилі за замовчуванням */
-  display: inline-block;
-  padding: 1rem 2.5rem;
-  font-size: 16px;
-  font-family: inherit;
-  background-color: #0e0c0d;
-  color: white;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-align: center;
-}
-
-.fix-button:hover {
   background-color: rgb(59, 49, 52);
-  box-shadow: 0 4px 8px rgba(82, 82, 82, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.fix-button-wrapper {
-  display: flex;
-  justify-content: center; /* якщо хочеш по центру */
-  margin-top: 1rem;
+.copied-label {
+  position: absolute;
+  top: 8px;
+  right: 40px;
+  background-color: #d4edda;
+  color: #155724;
+  padding: 2px 6px;
+  border-radius: 6px;
 }
-
-
 
 /* -----------FOOTER----------- */
 .app-footer {
